@@ -367,7 +367,7 @@ func (s *Service[U]) NewConnection(ctx context.Context, conn net.Conn, source M.
 	return nil
 }
 
-var _ N.EarlyWriter = (*rawServerConn)(nil)
+var _ N.EarlyConn = (*rawServerConn)(nil)
 
 type rawServerConn struct {
 	net.Conn
@@ -450,6 +450,10 @@ func (c *rawServerConn) ReaderOverhead() int {
 
 func (c *rawServerConn) NeedHandshakeForWrite() bool {
 	return c.writer == nil
+}
+
+func (c *rawServerConn) NeedHandshake() bool {
+	return c.NeedHandshakeForWrite()
 }
 
 func (c *rawServerConn) NeedAdditionalReadDeadline() bool {

@@ -13,7 +13,7 @@ import (
 	N "github.com/sagernet/sing/common/network"
 )
 
-var _ N.EarlyWriter = (*XUDPConn)(nil)
+var _ N.EarlyConn = (*XUDPConn)(nil)
 
 type XUDPConn struct {
 	net.Conn
@@ -174,7 +174,7 @@ func (c *XUDPConn) FrontHeadroom() int {
 	return c.frontHeadroom(M.MaxSocksaddrLength)
 }
 
-func (c *XUDPConn) NeedHandshakeForWrite() bool {
+func (c *XUDPConn) NeedHandshake() bool {
 	return !c.requestWritten
 }
 
